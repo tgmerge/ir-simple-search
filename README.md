@@ -7,3 +7,15 @@ This class will procees all the documents and create <term, Doc ID> things in a 
 * file content: `04e0 0000` `0a53 0000` `17be 0000` `23ea 0000`<br>
 
 we can know that the term `zhejiang` appeared in `4` documents.
+
+BoolQuery
+---------
+
+public方法:
+
+* `ResultSet query(string queryStr)`
+    - 以queryStr作检索，返回符合要求的docID列表
+
+自定义类型:
+
+* `typedef vector<long> resultSet`
