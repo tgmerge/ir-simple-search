@@ -172,3 +172,6 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+ir-simple-search.vcxproj.filters
+ir-simple-search.sln
+ir-simple-search.vcxproj
