@@ -3,9 +3,6 @@
 #include <vector>
 #include <cctype>
 #include <algorithm>
-
-#include <sys/types.h>
-#include <dirent.h>
 #include "tokenizer.h"
 
 #define BUF_LENGTH 50
@@ -110,7 +107,6 @@ int CTokenizer::__ProcessOneDoc(string DocPath)
 		}
 		vWordToken.clear();
 	}
-	
 	fin.close();
 }
 
@@ -128,19 +124,17 @@ bool CTokenizer::__IsNum(string str)
 
 int CTokenizer::ProcessAllDoc()
 {
-	DIR *CorpusDir = opendir(m_sCorpusPath.c_str());
-	struct dirent *Doc;
-	
-	while(Doc = readdir(CorpusDir)){
-		if(Doc->d_name[0] == '.'){
-			continue;
-		}
+	int firstDocID = 1;
+	int lastDocID = 21576;
+	int i = firstDocID;
+	char str[10];
+	while(i <= lastDocID){
 		m_nDocNum++;
-		__ProcessOneDoc(m_sCorpusPath+"/"+Doc->d_name);
+		sprintf(str,"%d",i);
+		__ProcessOneDoc(m_sCorpusPath+"/"+str+".html");
+		++i;
 	}
-	closedir(CorpusDir);
 	
 	cout << "Total Doc: " << m_nDocNum << endl;
 	cout << "Total Term: " << m_nTermNum << endl;
 }
-
