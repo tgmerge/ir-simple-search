@@ -9,6 +9,7 @@
 #include "vbcode.h"
 bool VBCode::encoder(string sCatelog){
     bool finish;
+    int total=0;
     ifstream file(sCatelog.c_str());
     string termName;
     finish=file.is_open();
@@ -17,13 +18,16 @@ bool VBCode::encoder(string sCatelog){
         cout<<endl;
         cout<<"---------New Term-----------"<<endl;
         cout<<termName<<":"<<endl;
+        total++;
         if (!VBCode::encodeSingleTerm(termName)){
+            
             cout<<"!!!!!!ERROR!!!!!!";
             //finish=false;
             //break;
         }
     }
     file.close();
+    cout<<"\nTotal: "<<total<<endl;
     return finish;
 }
 
@@ -38,8 +42,9 @@ bool VBCode::encodeSingleTerm(string sTokenName){
     file.open((cPath+sTokenName).c_str(),ios::binary);
     if (file.is_open()){
         finish=true;
-        while (!file.eof()){
+        while (1){
             file.read((char*)&byte,sizeof(byte));
+            if (file.eof()) break;
             cout<<"real: "<<(int)byte<<endl;
             tmp=byte;
             byte=byte-last;
@@ -114,9 +119,13 @@ vector<int> VBCode::decoder(string sTerm){
                 file.read((char*)&byte,1);
             }
             tmp=tmp*128+byte-128;
+            cout<<tmp<<" + "<<lastID<<endl;
             docID.push_back(tmp+lastID);
-            lastID=tmp;
+            lastID=tmp+lastID;
         }
+    }
+    else{
+        cout<<"Term does not existed";
     }
     return docID;
 }
