@@ -5,6 +5,8 @@
 *.suo
 *.user
 *.sln.docstates
+test_boolquery.cpp
+Temp/
 
 # Build results
 [Dd]ebug/
