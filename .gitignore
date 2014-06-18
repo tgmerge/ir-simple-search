@@ -5,7 +5,6 @@
 *.suo
 *.user
 *.sln.docstates
-test_boolquery.cpp
 Temp/
 Temp_index/
 Reuters/
