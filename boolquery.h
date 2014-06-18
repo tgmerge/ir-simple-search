@@ -9,12 +9,21 @@
 #include <string>
 #include <vector>
 #include "stdlib.h"
+#include "vbcode.h"
 
-typedef vector<long> ReverseTable;
-typedef vector<long> ResultSet;
+typedef vector<int> ReverseTable;
+typedef vector<int> ResultSet;
 typedef vector<string> Expression;
 
 class BoolQuery{
+
+private:
+
+	const int maxDocID = 21576;
+
+public:
+
+	VBCode coder;
 
 public:
 
@@ -22,7 +31,7 @@ public:
 	// "this OR that" --> [ResultSet]
 	ResultSet query(string queryStr);
 
-private:
+public:
 
 	// 分割字符串
 	// usage: split("this is", ' ');
@@ -39,19 +48,20 @@ private:
 	Expression toRPN(Expression exp);
 
 	// 计算后缀表达式
-	// TOOD 测试
 	// e.g. (Expression)a b AND --> (ResultSet)1 2 4 6
 	ResultSet calcRPN(Expression exp);
 	
 	// 从decoder获取词项term的倒排索引
-	// TODO
 	// e.g. "doge" --> (ResultSet)1 2 5 8
 	ReverseTable getReverseTable(string term);
 
 	// 进行一次and, or, not计算
-	// TOOD NOT
 	// e.g. "AND", (table), (table) --> (table)1 5 7
 	ReverseTable doCalc(string op, ReverseTable opA, ReverseTable opB);
+
+	// 得到docID文档的全文
+	// e.g. 12 --> (string)
+	string getDoc(int docID);
 };
 
 #endif

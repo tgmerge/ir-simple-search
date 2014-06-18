@@ -9,17 +9,7 @@
 
 ResultSet BoolQuery::query(string queryStr) {
 	Expression infex = split(queryStr, ' ');
-
-	// debug
-	cout << "[query infex] ";
-	for (string t : infex) cout << t << ',';
-
 	Expression rpn = toRPN(infex);
-
-	// debug
-	cout << endl << "[query rpn] ";
-	for (string t : rpn) cout << t << ',';
-
 	ResultSet result = calcRPN(rpn);
 	return result;
 }
@@ -40,7 +30,8 @@ ResultSet BoolQuery::calcRPN(Expression exp) {
 			tableStack.push(doCalc(token, opA, opB));
 		}
 		else {
-			tableStack.push(getReverseTable(token));
+			ReverseTable tmp = getReverseTable(token);
+			tableStack.push(tmp);
 		}
 	}
 
@@ -49,9 +40,7 @@ ResultSet BoolQuery::calcRPN(Expression exp) {
 
 
 ReverseTable BoolQuery::getReverseTable(string term) {
-	// dummy table for testing
-	ReverseTable emptyTable;
-	return(emptyTable);
+	return(coder.decoder(term));
 }
 
 
@@ -59,33 +48,46 @@ ReverseTable BoolQuery::doCalc(string op, ReverseTable opA, ReverseTable opB) {
 	ReverseTable result;
 	int iA = 0, iB = 0;
 	if (op == "AND") {
-		while (iA < opA.size && iB < opB.size) {
-			if (opA[iA] == opB[iB])
+		while (iA < opA.size() && iB < opB.size()) {
+			if (opA[iA] == opB[iB]) {
 				result.push_back(opA[iA]);
+				iA++; iB++;
+			}
 			else
 				if (opA[iA] < opB[iB]) iA++; else iB++;
 		}
 	}
 	else if (op == "OR") {
-		while (iA < opA.size || iB < opB.size) {
-			if (iA < opA.size && iB < opB.size && opA[iA] == opB[iB]) {
+		while (iA < opA.size() || iB < opB.size()) {
+			if (iA >= opA.size() && iB >= opB.size()) {
+				break;
+			}
+			else if (iA < opA.size() && iB < opB.size() && opA[iA] == opB[iB]) {
 				result.push_back(opA[iA]);
 				iA++;
 				iB++;
 			}
-			else if (iB >= opB.size || opA[iA] < opB[iB]) {
+			else if (iA < opA.size() && (iB >= opB.size() || opA[iA] < opB[iB])) {
 				result.push_back(opA[iA]);
 				iA++;
 			}
-			else if (iA >= opA.size || opA[iA] > opB[iB]) {
+			else if (iB < opB.size() && (iA >= opA.size() || opA[iA] > opB[iB])) {
 				result.push_back(opB[iB]);
 				iB++;
 			}
 		}
 	}
 	else if (op == "NOT") {
-
+		for (int i = 1, iA = 0; i <= maxDocID; i++) {
+			if (opA[iA] != i) {
+				result.push_back(i);
+			}
+			else if (iA < opA.size()-1) {
+				iA++;
+			}
+		}
 	}
+	return result;
 }
 
 
@@ -147,4 +149,11 @@ vector<string> BoolQuery::split(const std::string &s, char delim) {
 		}
 	}
 	return elems;
+}
+
+string BoolQuery::getDoc(int docID) {
+	ifstream file("Reuters\\" + to_string(docID) + ".html");
+	stringstream buffer;
+	buffer << file.rdbuf();
+	return buffer.str();
 }
