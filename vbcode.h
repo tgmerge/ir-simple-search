@@ -21,7 +21,7 @@ public:
     bool encodeSingleTerm(string sTokenName);
 private:
     vector<char> encodeNumber(int nNum);
-    string cPath="temp/";
+    string cPath="Temp/";
     int nLastID;
 };
 

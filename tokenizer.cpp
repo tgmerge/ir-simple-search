@@ -43,7 +43,10 @@ int CTokenizer::Init()
   cout << endl;
   cout << m_vsStopWord.size() << endl;
   fin.close();  
-   
+
+  // monkeypatch CTokenizer::Init必须返回一个值
+  // by tgmerge
+  return 0;
 }
 
 
@@ -108,6 +111,9 @@ int CTokenizer::__ProcessOneDoc(string DocPath)
 		vWordToken.clear();
 	}
 	fin.close();
+	// monkeypatch CTokenizer::__ProcessOneDoc必须返回一个值
+	// by tgmerge
+	return 0;
 }
 
 bool CTokenizer::__IsNum(string str) 
@@ -137,4 +143,8 @@ int CTokenizer::ProcessAllDoc()
 	
 	cout << "Total Doc: " << m_nDocNum << endl;
 	cout << "Total Term: " << m_nTermNum << endl;
+
+	// monkeypatch: CTokenizer::ProcessAllDoc必须返回一个值
+	// by tgmerge
+	return 0;
 }

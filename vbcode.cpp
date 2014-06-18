@@ -15,8 +15,8 @@ bool VBCode::encoder(string sCatelog){
     finish=file.is_open();
     while ((!file.eof())&&(finish)){
         file>>termName;
-        cout<<endl;
-        cout<<"---------New Term-----------"<<endl;
+        // cout<<endl;
+        // cout<<"---------New Term-----------"<<endl;
         cout<<termName<<":"<<endl;
         total++;
         if (!VBCode::encodeSingleTerm(termName)){
@@ -27,7 +27,7 @@ bool VBCode::encoder(string sCatelog){
         }
     }
     file.close();
-    cout<<"\nTotal: "<<total<<endl;
+    // cout<<"\nTotal: "<<total<<endl;
     return finish;
 }
 
@@ -36,7 +36,7 @@ bool VBCode::encodeSingleTerm(string sTokenName){
     bool finish=false;
     int last=0;
     ifstream file;
-    ofstream fout(sTokenName.c_str(),ios::binary);
+    ofstream fout(("Temp_index\\"+sTokenName).c_str(),ios::binary);
     int byte,tmp;
     vector<char> res;
     file.open((cPath+sTokenName).c_str(),ios::binary);
@@ -45,18 +45,18 @@ bool VBCode::encodeSingleTerm(string sTokenName){
         while (1){
             file.read((char*)&byte,sizeof(byte));
             if (file.eof()) break;
-            cout<<"real: "<<(int)byte<<endl;
+            // cout<<"real: "<<(int)byte<<endl;
             tmp=byte;
             byte=byte-last;
             last=tmp;
-            cout<<"distance: "<<byte<<endl ;
+            // cout<<"distance: "<<byte<<endl ;
             if (byte!=0){
                 res=VBCode::encodeNumber(byte);
                 for (int i=0;i<res.size();i++){
                     fout.write((char*)&res[i],sizeof(res[i]));
-                    cout<<static_cast<int>(res[i])<<" ";
+                    // cout<<static_cast<int>(res[i])<<" ";
                 }
-                cout<<endl<<"next docID"<<endl;
+                // cout<<endl<<"next docID"<<endl;
             }
         }
     }
@@ -67,7 +67,7 @@ bool VBCode::encodeSingleTerm(string sTokenName){
 
 
 bool VBCode::termAlreadyExisted(string sTerm){
-    ifstream f(sTerm.c_str());
+	ifstream f(("Temp_index\\" + sTerm).c_str());
     bool tmp=f.is_open();
     f.close();
     return tmp;
@@ -106,7 +106,7 @@ vector<int> VBCode::decoder(string sTerm){
     unsigned char byte;
     ifstream file;
     if (termAlreadyExisted(sTerm)){
-        file.open(sTerm,ios::binary);
+		file.open(("Temp_index\\" + sTerm), ios::binary);
         while (1){
             tmp=0;
             file.read((char*)&byte,1);
@@ -119,7 +119,7 @@ vector<int> VBCode::decoder(string sTerm){
                 file.read((char*)&byte,1);
             }
             tmp=tmp*128+byte-128;
-            cout<<tmp<<" + "<<lastID<<endl;
+            // cout<<tmp<<" + "<<lastID<<endl;
             docID.push_back(tmp+lastID);
             lastID=tmp+lastID;
         }
