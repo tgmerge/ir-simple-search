@@ -1,18 +1,30 @@
 ir-simple-search
 ================
 
+一个简单的使用倒排索引的布尔搜索引擎，大概是课程作业 'w'。
+
+by [icdomer](https://github.com/icdomer), [AmemiyaYuko](https://github.com/AmemiyaYuko) and [tgmerge](http://tgmerge.me)
+
 Usage
 -----
+
+### EXE
+
 `ir-simple-search "query string"`
 
-`query string`可以使用`AND, OR, NOT`和括号，括号前后必须用空格分隔。例如
+query string中可以使用AND, OR, NOT和括号，括号前后必须用空格分隔。例如
 
-`said AND ( wheat OR search ) AND NOT tag`
+`ir-simple-search "said AND ( wheat OR search ) AND NOT tag"`
+
+### WEB
 
 `/python`路径下是一个bottle写的web端，运行`Soda.py`即可。之后请访问
 
 `http://localhost:8080/`
 
+### 其他数据
+
+`data.rar`是已经建立好的索引和Reuters文本，解压缩至根目录下即可。
 
 CTokenizer 
 -------
