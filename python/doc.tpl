@@ -4,9 +4,9 @@
 	<meta charset="utf-8">
 	<title>Doc #{{docID}}</title>
 	<style>
-		* { font-family: Arial, sans-serif; }
+		h3 { font-family: Arial, sans-serif; }
 		body { max-width: 600px; margin: auto; margin-bottom: 100px; }
-		div#text { line-height: 30px; text-align: justify; }
+		pre#text { line-height: 30px; text-align: justify; font-family: Consolas, monospace; }
 		h3 { margin-top: 100px; margin-bottom: 50px;  font-size: 24px; }
 		hr { height: 1px; border: none; border-top: 1px dashed #999; }
 	</style>
@@ -15,5 +15,5 @@
 <body>
 	<h3 id="title">Document #{{docID}}</h3>
 	<hr>
-	<div id="text">{{doc}}</div>
+	<pre id="text">{{doc}}</pre>
 </body>
