@@ -79,7 +79,7 @@ ReverseTable BoolQuery::doCalc(string op, ReverseTable opA, ReverseTable opB) {
 	}
 	else if (op == "NOT") {
 		for (int i = 1, iA = 0; i <= maxDocID; i++) {
-			if (opA[iA] != i) {
+			if ((iA < opA.size() ? opA[iA] : -1 ) != i) {
 				result.push_back(i);
 			}
 			else if (iA < opA.size()-1) {
