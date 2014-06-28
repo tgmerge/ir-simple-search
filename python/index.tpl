@@ -29,5 +29,6 @@
 		<li><a href="/query?q=said AND ( search AND NOT world )">said AND ( search AND NOT world )</a></li>
 		<li><a href="/query?q=NOT wheat AND ( world OR tag )">NOT wheat AND ( world OR tag )</a></li>
 		<li><a href="/query?q=plus AND NOT said">plus AND NOT said</a></li>
+		<li><a href="/query?q=said AND ( wheat AND NOT grain ) AND china AND agriculture">said AND ( wheat AND NOT grain ) AND china AND agriculture</a></li>
 	</ul>
 </body>
